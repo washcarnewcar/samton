@@ -34,6 +34,12 @@ function ValueCard({ value, index }: { value: typeof values[0]; index: number })
   const rotateX = useSpring(useTransform(mouseY, [0, 1], [8, -8]), { stiffness: 200, damping: 30 });
   const rotateY = useSpring(useTransform(mouseX, [0, 1], [-8, 8]), { stiffness: 200, damping: 30 });
 
+  const spotlightBg = useTransform(
+    [mouseX, mouseY],
+    ([x, y]) =>
+      `radial-gradient(350px circle at ${(x as number) * 100}% ${(y as number) * 100}%, ${value.accent}10, transparent 70%)`
+  );
+
   const handleMouse = useCallback(
     (e: React.MouseEvent) => {
       const rect = ref.current?.getBoundingClientRect();
@@ -62,8 +68,9 @@ function ValueCard({ value, index }: { value: typeof values[0]; index: number })
         rotateX,
         rotateY,
         transformStyle: "preserve-3d",
+        willChange: "transform",
       }}
-      className="group relative p-8 lg:p-10 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:bg-white/[0.05] hover:border-white/[0.12] transition-all duration-500 cursor-default"
+      className="group relative p-8 lg:p-10 rounded-2xl bg-white border border-[#0a1f3c]/[0.06] hover:border-[#6b9fff]/20 hover:shadow-xl transition-all duration-500 cursor-default"
     >
       {/* Animated accent line top */}
       <motion.div
@@ -78,13 +85,7 @@ function ValueCard({ value, index }: { value: typeof values[0]; index: number })
       {/* Spotlight glow on hover */}
       <motion.div
         className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{
-          background: useTransform(
-            [mouseX, mouseY],
-            ([x, y]) =>
-              `radial-gradient(350px circle at ${(x as number) * 100}% ${(y as number) * 100}%, ${value.accent}08, transparent 70%)`
-          ),
-        }}
+        style={{ background: spotlightBg }}
       />
 
       {/* Icon with animated background ring */}
@@ -97,7 +98,7 @@ function ValueCard({ value, index }: { value: typeof values[0]; index: number })
         />
         <motion.div
           className="relative w-14 h-14 rounded-2xl flex items-center justify-center"
-          style={{ backgroundColor: `${value.accent}12` }}
+          style={{ background: `linear-gradient(135deg, ${value.accent}18, ${value.accent}08)` }}
           whileHover={{ scale: 1.1, rotate: 5 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
         >
@@ -107,7 +108,7 @@ function ValueCard({ value, index }: { value: typeof values[0]; index: number })
 
       {/* Label */}
       <motion.div
-        className="text-white/20 mb-2 tracking-widest"
+        className="text-[#0a1f3c]/25 mb-2 tracking-widest"
         style={{ fontSize: "11px", fontWeight: 600 }}
         initial={{ opacity: 0, x: -10 }}
         whileInView={{ opacity: 1, x: 0 }}
@@ -118,12 +119,12 @@ function ValueCard({ value, index }: { value: typeof values[0]; index: number })
       </motion.div>
 
       {/* Title */}
-      <h3 className="text-white mb-4" style={{ fontSize: "22px", fontWeight: 800 }}>
+      <h3 className="text-[#0a1f3c] mb-4" style={{ fontSize: "22px", fontWeight: 800 }}>
         {value.title}
       </h3>
 
       {/* Description */}
-      <p className="text-white/40" style={{ fontSize: "14px", lineHeight: 1.8, fontWeight: 400 }}>
+      <p className="text-[#0a1f3c]/45" style={{ fontSize: "14px", lineHeight: 1.8, fontWeight: 400 }}>
         {value.description}
       </p>
 
@@ -141,12 +142,12 @@ function ValueCard({ value, index }: { value: typeof values[0]; index: number })
 
 export function ValuesSection() {
   return (
-    <section id="values" className="relative bg-[#081521] py-24 lg:py-32 overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+    <section id="values" className="relative bg-[#f5f7fa] py-24 lg:py-32 overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#0a1f3c]/10 to-transparent" />
 
       {/* Animated background orb */}
       <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#0a1f3c] rounded-full blur-[200px]"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-[#6b9fff]/5 via-transparent to-[#a78bfa]/5 rounded-full blur-[200px]"
         animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       />
@@ -161,13 +162,13 @@ export function ValuesSection() {
           className="text-center mb-16 lg:mb-20"
         >
           <div
-            className="text-white/30 mb-4 tracking-widest"
+            className="text-[#6b9fff] mb-4 tracking-widest"
             style={{ fontSize: "12px", fontWeight: 600 }}
           >
             CORE VALUES
           </div>
           <h2
-            className="text-white mb-5"
+            className="text-[#0a1f3c] mb-5"
             style={{ fontSize: "clamp(28px, 3.5vw, 44px)", fontWeight: 800, lineHeight: 1.2, letterSpacing: "-0.02em" }}
           >
             우리가 약속하는 핵심 가치
@@ -179,7 +180,7 @@ export function ValuesSection() {
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.8 }}
           />
-          <p className="text-white/40 max-w-lg mx-auto" style={{ fontSize: "16px", lineHeight: 1.7 }}>
+          <p className="text-[#0a1f3c]/45 max-w-lg mx-auto" style={{ fontSize: "16px", lineHeight: 1.7 }}>
             빠르고, 정확하고, 요구사항에 맞춘 — Samton의 세 가지 핵심 약속
           </p>
         </motion.div>

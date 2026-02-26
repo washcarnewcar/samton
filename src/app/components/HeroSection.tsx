@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useTransform, useSpring, useInView, animate } from "motion/react";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 
 function AnimatedCounter({ target, suffix = "" }: { target: string; suffix?: string }) {
@@ -24,32 +24,34 @@ function AnimatedCounter({ target, suffix = "" }: { target: string; suffix?: str
   return <span ref={ref}>0{suffix}</span>;
 }
 
-// Floating particles
-function FloatingParticles() {
-  const particles = Array.from({ length: 30 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 3 + 1,
-    duration: Math.random() * 20 + 15,
-    delay: Math.random() * 10,
-  }));
+// Floating particles (reduced count for performance)
+const PARTICLES = Array.from({ length: 12 }, (_, i) => ({
+  id: i,
+  x: Math.random() * 100,
+  y: Math.random() * 100,
+  size: Math.random() * 3 + 1,
+  duration: Math.random() * 20 + 15,
+  delay: Math.random() * 10,
+  dx: Math.random() * 40 - 20,
+}));
 
+function FloatingParticles() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {particles.map((p) => (
+      {PARTICLES.map((p) => (
         <motion.div
           key={p.id}
-          className="absolute rounded-full bg-white/10"
+          className="absolute rounded-full bg-[#6b9fff]/15"
           style={{
             width: p.size,
             height: p.size,
             left: `${p.x}%`,
             top: `${p.y}%`,
+            willChange: "transform, opacity",
           }}
           animate={{
             y: [0, -80, 0],
-            x: [0, Math.random() * 40 - 20, 0],
+            x: [0, p.dx, 0],
             opacity: [0, 0.6, 0],
           }}
           transition={{
@@ -84,31 +86,26 @@ export function HeroSection() {
     mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
   }, [mouseX, mouseY]);
 
-  // Staggered text reveal
-  const headline1 = "복잡한 문제를";
-  const headline2 = "기술로 해결합니다";
-
   return (
     <section
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative min-h-screen flex items-center overflow-hidden bg-[#081521]"
+      className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-b from-[#f5f7fa] via-[#eef2f8] to-white"
     >
-      {/* Parallax Background Image */}
-      <motion.div className="absolute inset-[-40px]" style={{ x: bgX, y: bgY }}>
+      {/* Parallax Background - subtle pattern */}
+      <motion.div className="absolute inset-[-40px] opacity-[0.04]" style={{ x: bgX, y: bgY }}>
         <ImageWithFallback
           src="https://images.unsplash.com/photo-1489436969537-cf0c1dc69cba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkYXJrJTIwc2VydmVyJTIwcm9vbSUyMHRlY2hub2xvZ3klMjBpbmZyYXN0cnVjdHVyZXxlbnwxfHx8fDE3NzE5MTc2MjJ8MA&ixlib=rb-4.1.0&q=80&w=1080"
           alt="Technology background"
-          className="w-full h-full object-cover opacity-20"
+          className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#081521] via-[#081521]/70 to-[#081521]" />
       </motion.div>
 
       {/* Animated grid */}
       <motion.div
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.04]"
         style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.3) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(rgba(10,31,60,.15) 1px, transparent 1px), linear-gradient(90deg, rgba(10,31,60,.15) 1px, transparent 1px)`,
           backgroundSize: "80px 80px",
         }}
         animate={{ backgroundPosition: ["0px 0px", "80px 80px"] }}
@@ -120,12 +117,13 @@ export function HeroSection() {
 
       {/* Interactive glow that follows mouse */}
       <motion.div
-        className="absolute w-[700px] h-[700px] bg-[#133254] rounded-full blur-[250px] opacity-25 pointer-events-none"
+        className="absolute w-[700px] h-[700px] bg-[#6b9fff] rounded-full blur-[250px] opacity-[0.06] pointer-events-none"
         style={{
           x: glowX,
           y: glowY,
           top: "20%",
           left: "40%",
+          willChange: "transform",
         }}
       />
 
@@ -133,64 +131,37 @@ export function HeroSection() {
         <div className="max-w-3xl">
           {/* Tag */}
           <motion.div
-            initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: [0, 0, 0.2, 1] }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#0a1f3c]/10 bg-white/60 backdrop-blur-sm mb-8"
           >
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-white/60" style={{ fontSize: "13px", fontWeight: 500, letterSpacing: "0.05em" }}>
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-[#0a1f3c]/50" style={{ fontSize: "13px", fontWeight: 500, letterSpacing: "0.05em" }}>
               YOUR TRUSTED TECHNOLOGY PARTNER
             </span>
           </motion.div>
 
-          {/* Headline with character stagger */}
-          <h1
-            className="text-white mb-6 overflow-hidden"
+          {/* Headline with fade in */}
+          <motion.h1
+            className="text-[#0a1f3c] mb-6"
             style={{ fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em" }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 2, ease: [0, 0, 0.2, 1] }}
           >
-            <span className="block overflow-hidden">
-              {headline1.split("").map((char, i) => (
-                <motion.span
-                  key={`h1-${i}`}
-                  className="inline-block"
-                  initial={{ y: 80, opacity: 0, rotateX: 90 }}
-                  animate={{ y: 0, opacity: 1, rotateX: 0 }}
-                  transition={{
-                    delay: 0.5 + i * 0.04,
-                    duration: 0.6,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
-                >
-                  {char === " " ? "\u00A0" : char}
-                </motion.span>
-              ))}
+            복잡한 문제를
+            <span className="block bg-gradient-to-r from-[#0a1f3c] via-[#3b6cb5] to-[#6b9fff] bg-clip-text text-transparent">
+              기술로 해결합니다
             </span>
-            <span className="block overflow-hidden bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
-              {headline2.split("").map((char, i) => (
-                <motion.span
-                  key={`h2-${i}`}
-                  className="inline-block"
-                  initial={{ y: 80, opacity: 0, rotateX: 90 }}
-                  animate={{ y: 0, opacity: 1, rotateX: 0 }}
-                  transition={{
-                    delay: 0.8 + i * 0.04,
-                    duration: 0.6,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
-                >
-                  {char === " " ? "\u00A0" : char}
-                </motion.span>
-              ))}
-            </span>
-          </h1>
+          </motion.h1>
 
-          {/* Subtitle with line reveal */}
+          {/* Subtitle */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.4, duration: 0.8 }}
-            className="text-white/50 max-w-xl mb-10"
+            transition={{ delay: 0.08, duration: 1.2, ease: [0, 0, 0.2, 1] }}
+            className="text-[#0a1f3c]/50 max-w-xl mb-10"
             style={{ fontSize: "clamp(16px, 1.5vw, 19px)", lineHeight: 1.7, fontWeight: 400 }}
           >
             빠르고, 정확하고, 요구사항에 맞춘 기술 파트너.
@@ -204,14 +175,14 @@ export function HeroSection() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.6, duration: 0.7 }}
+            transition={{ delay: 1, duration: 1.5, ease: [0, 0, 0.2, 1] }}
             className="flex flex-col sm:flex-row gap-4"
           >
             <motion.a
-              whileHover={{ scale: 1.04, boxShadow: "0 0 40px rgba(255,255,255,0.15)" }}
+              whileHover={{ scale: 1.04, boxShadow: "0 8px 30px rgba(10,31,60,0.15)" }}
               whileTap={{ scale: 0.96 }}
               href="#contact"
-              className="relative inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-white text-[#0a1f3c] rounded-xl overflow-hidden group"
+              className="relative inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[#0a1f3c] text-white rounded-xl overflow-hidden group"
               style={{ fontSize: "15px", fontWeight: 700 }}
             >
               <span className="relative z-10 flex items-center gap-2">
@@ -231,14 +202,14 @@ export function HeroSection() {
               </span>
               {/* Hover shimmer effect */}
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"
               />
             </motion.a>
             <motion.a
-              whileHover={{ scale: 1.04, backgroundColor: "rgba(255,255,255,0.08)" }}
+              whileHover={{ scale: 1.04, backgroundColor: "rgba(10,31,60,0.05)" }}
               whileTap={{ scale: 0.96 }}
               href="#about"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 border border-white/20 text-white/80 rounded-xl hover:text-white transition-all"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 border border-[#0a1f3c]/20 text-[#0a1f3c]/70 rounded-xl hover:text-[#0a1f3c] transition-all"
               style={{ fontSize: "15px", fontWeight: 600 }}
             >
               더 알아보기
@@ -263,22 +234,24 @@ export function HeroSection() {
               key={stat.label}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 2 + i * 0.15, duration: 0.6 }}
+              transition={{ delay: 1.5 + i * 0.15, duration:  0.6 }}
               className="text-center lg:text-left group"
             >
               <div
-                className="text-white mb-1 tabular-nums"
+                className="text-[#0a1f3c] mb-1 tabular-nums text-center"
                 style={{ fontSize: "clamp(28px, 3vw, 40px)", fontWeight: 800, letterSpacing: "-0.02em" }}
               >
-                <AnimatedCounter target={stat.number} suffix={stat.suffix} />
+                {/* TODO: 파트너사가 늘어나면 주석 해제 */}
+                {/*<AnimatedCounter target={stat.number} suffix={stat.suffix} />*/}
+                <span>{stat.number}{stat.suffix}</span>
               </div>
               <motion.div
-                className="h-px bg-gradient-to-r from-[#6b9fff]/0 via-[#6b9fff]/30 to-[#6b9fff]/0 mb-2 origin-left"
+                className="h-px bg-gradient-to-r from-[#0a1f3c]/0 via-[#6b9fff]/30 to-[#0a1f3c]/0 mb-2 origin-left mx-auto"
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
-                transition={{ delay: 2.3 + i * 0.15, duration: 0.8 }}
+                transition={{ delay: 0.4 + i * 0.08, duration: 1, ease: [0, 0, 0.2, 1] }}
               />
-              <div className="text-white/40" style={{ fontSize: "14px", fontWeight: 500 }}>
+              <div className="text-[#0a1f3c]/40" style={{ fontSize: "14px", fontWeight: 500 }}>
                 {stat.label}
               </div>
             </motion.div>
@@ -286,26 +259,37 @@ export function HeroSection() {
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div
+      {/* Scroll down arrow button */}
+      <motion.button
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.5, duration: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        transition={{ delay: 0.8, duration: 1.2, ease: [0, 0, 0.2, 1] }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 group cursor-pointer"
+        onClick={() => {
+          document.getElementById("about")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }}
       >
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
+          animate={{ y: [0, 6, 0] }}
+          transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+          className="flex flex-col items-center gap-2"
         >
-          <div className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center pt-2">
-            <motion.div
-              className="w-1 h-2.5 bg-white/40 rounded-full"
-              animate={{ opacity: [0.2, 0.8, 0.2], scaleY: [0.8, 1.2, 0.8] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-            />
-          </div>
+          <span className="text-[#0a1f3c]/35 group-hover:text-[#6b9fff] transition-colors" style={{ fontSize: "12px", fontWeight: 500, letterSpacing: "0.05em" }}>
+            SCROLL
+          </span>
+          <svg
+            width="20"
+            height="20"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            className="text-[#0a1f3c]/35 group-hover:text-[#6b9fff] transition-colors"
+          >
+            <path d="M7 10l5 5 5-5" />
+          </svg>
         </motion.div>
-      </motion.div>
+      </motion.button>
     </section>
   );
 }

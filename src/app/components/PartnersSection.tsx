@@ -25,32 +25,32 @@ function MarqueeRow({ direction = 1, speed = 30 }: { direction?: number; speed?:
             href={`https://${partner.url}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative flex flex-col items-center justify-center w-52 h-40 shrink-0 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.08] hover:border-white/[0.18] transition-all duration-400 hover:scale-[1.05]"
+            className="group relative flex flex-col items-center justify-center w-52 h-40 shrink-0 rounded-2xl bg-white border border-[#0a1f3c]/[0.06] hover:border-[#6b9fff]/20 hover:shadow-lg transition-all duration-400 hover:scale-[1.05]"
           >
             {/* Hover glow */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#6b9fff]/0 to-[#6b9fff]/0 group-hover:from-[#6b9fff]/[0.04] group-hover:to-transparent transition-all duration-500" />
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#6b9fff]/0 to-[#6b9fff]/0 group-hover:from-[#6b9fff]/[0.03] group-hover:to-transparent transition-all duration-500" />
 
-            <div className="w-14 h-14 rounded-xl bg-white/[0.05] border border-white/[0.08] flex items-center justify-center mb-3 group-hover:bg-white/[0.1] group-hover:border-white/[0.15] group-hover:scale-110 transition-all duration-300">
+            <div className="w-14 h-14 rounded-xl bg-[#f5f7fa] border border-[#0a1f3c]/[0.06] flex items-center justify-center mb-3 group-hover:bg-[#6b9fff]/10 group-hover:border-[#6b9fff]/20 group-hover:scale-110 transition-all duration-300">
               <span
-                className="text-white/50 group-hover:text-white transition-colors duration-300"
+                className="text-[#0a1f3c]/40 group-hover:text-[#0a1f3c] transition-colors duration-300"
                 style={{ fontSize: "22px", fontWeight: 800 }}
               >
                 {partner.name[0]}
               </span>
             </div>
             <h4
-              className="text-white/70 text-center group-hover:text-white transition-colors duration-300"
+              className="text-[#0a1f3c]/70 text-center group-hover:text-[#0a1f3c] transition-colors duration-300"
               style={{ fontSize: "14px", fontWeight: 700 }}
             >
               {partner.name}
             </h4>
-            <span className="text-white/25 group-hover:text-white/50 transition-colors duration-300" style={{ fontSize: "12px", fontWeight: 500 }}>
+            <span className="text-[#0a1f3c]/30 group-hover:text-[#0a1f3c]/50 transition-colors duration-300" style={{ fontSize: "12px", fontWeight: 500 }}>
               {partner.desc}
             </span>
 
             {/* External link */}
             <svg
-              className="absolute top-3 right-3 text-white/0 group-hover:text-white/30 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              className="absolute top-3 right-3 text-[#0a1f3c]/0 group-hover:text-[#0a1f3c]/30 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               width="12"
               height="12"
               fill="none"
@@ -69,8 +69,8 @@ function MarqueeRow({ direction = 1, speed = 30 }: { direction?: number; speed?:
 
 export function PartnersSection() {
   return (
-    <section id="partners" className="relative bg-[#0a1f3c] py-24 lg:py-32 overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+    <section id="partners" className="relative bg-white py-24 lg:py-32 overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#0a1f3c]/10 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <motion.div
@@ -81,13 +81,13 @@ export function PartnersSection() {
           className="text-center mb-16"
         >
           <div
-            className="text-white/30 mb-4 tracking-widest"
+            className="text-[#6b9fff] mb-4 tracking-widest"
             style={{ fontSize: "12px", fontWeight: 600 }}
           >
             PARTNERS
           </div>
           <h2
-            className="text-white mb-5"
+            className="text-[#0a1f3c] mb-5"
             style={{ fontSize: "clamp(28px, 3.5vw, 44px)", fontWeight: 800, lineHeight: 1.2, letterSpacing: "-0.02em" }}
           >
             신뢰로 함께하는 파트너
@@ -99,7 +99,7 @@ export function PartnersSection() {
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.8 }}
           />
-          <p className="text-white/40 max-w-lg mx-auto" style={{ fontSize: "16px", lineHeight: 1.7 }}>
+          <p className="text-[#0a1f3c]/45 max-w-lg mx-auto" style={{ fontSize: "16px", lineHeight: 1.7 }}>
             다양한 산업 분야의 파트너들과 함께 성장하고 있습니다
           </p>
         </motion.div>

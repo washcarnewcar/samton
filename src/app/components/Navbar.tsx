@@ -1,32 +1,38 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import logoHorizontal from "@/assets/e4df91140cc74f1cc6988c323775ef7c795d43a6.png";
+import logoHorizontal from "@/assets/Samton_logo_with_text.png";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const rafRef = useRef(0);
 
   useEffect(() => {
     const onScroll = () => {
-      setScrolled(window.scrollY > 40);
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 40);
 
-      // Active section detection
-      const sections = ["contact", "partners", "values", "about"];
-      for (const id of sections) {
-        const el = document.getElementById(id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 200) {
-            setActiveSection(id);
-            return;
+        const sections = ["contact", "partners", "values", "about"];
+        for (const id of sections) {
+          const el = document.getElementById(id);
+          if (el) {
+            const rect = el.getBoundingClientRect();
+            if (rect.top <= 200) {
+              setActiveSection(id);
+              return;
+            }
           }
         }
-      }
-      setActiveSection("");
+        setActiveSection("");
+      });
     };
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
   const links = [
@@ -47,11 +53,11 @@ export function Navbar() {
 
   return (
     <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1, ease: [0, 0, 0.2, 1] }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "bg-[#081521]/90 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.3)]" : "bg-transparent"
+        scrolled ? "bg-white/90 backdrop-blur-xl shadow-[0_1px_20px_rgba(0,0,0,0.06)]" : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-16 lg:h-20">
@@ -67,7 +73,6 @@ export function Navbar() {
             src={logoHorizontal}
             alt="Samton"
             className="h-7 lg:h-8 w-auto"
-            style={{ filter: "brightness(0) invert(1)" }}
           />
         </motion.a>
 
@@ -79,17 +84,17 @@ export function Navbar() {
               href={link.href}
               onClick={(e) => handleSmoothScroll(e, link.href)}
               className={`relative px-4 py-2 rounded-lg transition-colors ${
-                activeSection === link.id ? "text-white" : "text-white/50 hover:text-white/80"
+                activeSection === link.id ? "text-[#0a1f3c]" : "text-[#0a1f3c]/50 hover:text-[#0a1f3c]/80"
               }`}
               style={{ fontSize: "14px", fontWeight: 500, letterSpacing: "0.02em" }}
-              whileHover={{ backgroundColor: "rgba(255,255,255,0.05)" }}
+              whileHover={{ backgroundColor: "rgba(10,31,60,0.04)" }}
               transition={{ duration: 0.2 }}
             >
               {link.label}
               {activeSection === link.id && (
                 <motion.div
                   layoutId="activeNav"
-                  className="absolute bottom-0 left-3 right-3 h-[2px] bg-[#6b9fff] rounded-full"
+                  className="absolute bottom-0 left-3 right-3 h-[2px] bg-gradient-to-r from-[#0a1f3c] to-[#6b9fff] rounded-full"
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
               )}
@@ -98,9 +103,9 @@ export function Navbar() {
           <motion.a
             href="#contact"
             onClick={(e) => handleSmoothScroll(e, "#contact")}
-            className="ml-3 px-5 py-2 bg-white/10 border border-white/20 text-white rounded-lg"
+            className="ml-3 px-5 py-2 bg-[#0a1f3c] text-white rounded-lg"
             style={{ fontSize: "14px", fontWeight: 600 }}
-            whileHover={{ backgroundColor: "rgba(255,255,255,0.2)", scale: 1.03 }}
+            whileHover={{ scale: 1.03, backgroundColor: "#133254" }}
             whileTap={{ scale: 0.97 }}
           >
             문의하기
@@ -109,7 +114,7 @@ export function Navbar() {
 
         {/* Mobile Toggle */}
         <motion.button
-          className="md:hidden text-white/80 p-2"
+          className="md:hidden text-[#0a1f3c]/80 p-2"
           onClick={() => setMobileOpen(!mobileOpen)}
           whileTap={{ scale: 0.9 }}
         >
@@ -131,7 +136,7 @@ export function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden bg-[#081521]/98 backdrop-blur-xl border-t border-white/10 overflow-hidden"
+            className="md:hidden bg-white/98 backdrop-blur-xl border-t border-[#0a1f3c]/5 overflow-hidden"
           >
             <div className="px-6 py-6 space-y-1">
               {links.map((link, i) => (
@@ -141,7 +146,7 @@ export function Navbar() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.08, duration: 0.3 }}
-                  className="block px-4 py-3 text-white/70 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                  className="block px-4 py-3 text-[#0a1f3c]/70 hover:text-[#0a1f3c] hover:bg-[#0a1f3c]/5 rounded-lg transition-colors"
                   style={{ fontSize: "16px", fontWeight: 500 }}
                   onClick={(e) => handleSmoothScroll(e, link.href)}
                 >
@@ -153,7 +158,7 @@ export function Navbar() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.35, duration: 0.3 }}
-                className="block mt-3 px-5 py-2.5 bg-white/10 border border-white/20 text-white rounded-lg text-center"
+                className="block mt-3 px-5 py-2.5 bg-[#0a1f3c] text-white rounded-lg text-center"
                 style={{ fontSize: "14px", fontWeight: 600 }}
                 onClick={(e) => handleSmoothScroll(e, "#contact")}
               >

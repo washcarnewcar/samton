@@ -1,6 +1,6 @@
 import { motion, useMotionValue, useTransform, useSpring } from "motion/react";
 import { useRef, useCallback } from "react";
-import brandGuidelineImg from "@/assets/45c76256ebd52adb13536cfefb84d50791de9fe4.png";
+import brandGuidelineImg from "@/assets/guid.png";
 
 function TiltCard({
   children,
@@ -94,14 +94,16 @@ const philosophyItems = [
 
 export function AboutSection() {
   return (
-    <section id="about" className="relative bg-[#0a1f3c] py-24 lg:py-32 overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+    <section id="about" className="relative bg-white py-24 lg:py-32 overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#0a1f3c]/10 to-transparent" />
+      {/* Gradient orb */}
+      <div className="absolute top-1/3 -right-40 w-[500px] h-[500px] bg-gradient-to-br from-[#6b9fff]/5 to-transparent rounded-full blur-[200px]" />
 
       {/* Animated line decoration */}
       <motion.div
         className="absolute top-20 left-0 w-full h-px"
         style={{
-          background: "linear-gradient(90deg, transparent, rgba(107,159,255,0.15), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(107,159,255,0.1), transparent)",
         }}
         animate={{ x: ["-100%", "100%"] }}
         transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
@@ -117,7 +119,7 @@ export function AboutSection() {
           className="mb-16"
         >
           <motion.div
-            className="text-white/30 mb-4 tracking-widest"
+            className="text-[#6b9fff] mb-4 tracking-widest"
             style={{ fontSize: "12px", fontWeight: 600 }}
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -127,14 +129,14 @@ export function AboutSection() {
             ABOUT SAMTON
           </motion.div>
           <h2
-            className="text-white mb-6"
+            className="text-[#0a1f3c] mb-6"
             style={{ fontSize: "clamp(28px, 3.5vw, 44px)", fontWeight: 800, lineHeight: 1.2, letterSpacing: "-0.02em" }}
           >
             지혜와 아이디어가
             <br />
             솟아나는{" "}
             <motion.span
-              className="text-[#6b9fff] inline-block"
+              className="bg-gradient-to-r from-[#0a1f3c] via-[#3b6cb5] to-[#6b9fff] bg-clip-text text-transparent inline-block"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -144,10 +146,10 @@ export function AboutSection() {
             </motion.span>
           </h2>
           <p
-            className="text-white/45 max-w-2xl"
+            className="text-[#0a1f3c]/50 max-w-2xl"
             style={{ fontSize: "17px", lineHeight: 1.8, fontWeight: 400 }}
           >
-            Samton이라는 이름은 '지혜와 아이디어가 솟아나는 샘이 트다'라는 의미에서 탄생했습니다.
+            샘튼이라는 이름은 '지혜와 아이디어가 솟아나는 샘이 트다'라는 의미에서 탄생했습니다.
             끊임없이 변화하는 IT 환경 속에서 마르지 않는 기술적 창의성을 바탕으로,
             고객의 비즈니스에 새로운 생명력을 불어넣는 맞춤형 솔루션을 제공합니다.
           </p>
@@ -165,19 +167,19 @@ export function AboutSection() {
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.7, delay: i * 0.15 }}
               >
-                <TiltCard className="relative group flex gap-5 p-6 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/10 transition-all duration-300 cursor-default">
+                <TiltCard className="relative group flex gap-5 p-6 rounded-2xl bg-[#f5f7fa] border border-[#0a1f3c]/[0.06] hover:bg-[#eef2f8] hover:border-[#6b9fff]/20 hover:shadow-lg transition-all duration-300 cursor-default">
                   <motion.div
-                    className="flex-shrink-0 w-11 h-11 rounded-xl bg-[#133254] flex items-center justify-center text-[#6b9fff]"
+                    className="flex-shrink-0 w-11 h-11 rounded-xl bg-gradient-to-br from-[#0a1f3c] to-[#133254] flex items-center justify-center text-white"
                     whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
                     transition={{ duration: 0.5 }}
                   >
                     {item.icon}
                   </motion.div>
                   <div>
-                    <h3 className="text-white mb-2" style={{ fontSize: "17px", fontWeight: 700 }}>
+                    <h3 className="text-[#0a1f3c] mb-2" style={{ fontSize: "17px", fontWeight: 700 }}>
                       {item.title}
                     </h3>
-                    <p className="text-white/40" style={{ fontSize: "14px", lineHeight: 1.7, fontWeight: 400 }}>
+                    <p className="text-[#0a1f3c]/45" style={{ fontSize: "14px", lineHeight: 1.7, fontWeight: 400 }}>
                       {item.desc}
                     </p>
                   </div>
@@ -195,8 +197,8 @@ export function AboutSection() {
             className="relative"
           >
             <motion.div
-              className="relative rounded-2xl overflow-hidden border border-white/[0.08] shadow-2xl"
-              whileHover={{ y: -8, boxShadow: "0 30px 60px -12px rgba(0,0,0,0.5)" }}
+              className="relative rounded-2xl overflow-hidden border border-[#0a1f3c]/[0.08] shadow-xl"
+              whileHover={{ y: -8, boxShadow: "0 30px 60px -12px rgba(10,31,60,0.12)" }}
               transition={{ duration: 0.4, ease: "easeOut" }}
             >
               <img
@@ -204,21 +206,16 @@ export function AboutSection() {
                 alt="Samton Brand Guideline"
                 className="w-full h-auto"
               />
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-t from-[#0a1f3c]/40 to-transparent"
-                whileHover={{ opacity: 0.2 }}
-                transition={{ duration: 0.3 }}
-              />
             </motion.div>
             {/* Animated decorative glow */}
             <motion.div
-              className="absolute -top-4 -right-4 w-24 h-24 bg-[#133254] rounded-full blur-[60px]"
-              animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.2, 1] }}
+              className="absolute -top-4 -right-4 w-24 h-24 bg-[#6b9fff] rounded-full blur-[60px]"
+              animate={{ opacity: [0.08, 0.15, 0.08], scale: [1, 1.2, 1] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             />
             <motion.div
-              className="absolute -bottom-4 -left-4 w-32 h-32 bg-[#133254] rounded-full blur-[80px]"
-              animate={{ opacity: [0.2, 0.5, 0.2], scale: [1, 1.15, 1] }}
+              className="absolute -bottom-4 -left-4 w-32 h-32 bg-[#6b9fff] rounded-full blur-[80px]"
+              animate={{ opacity: [0.05, 0.12, 0.05], scale: [1, 1.15, 1] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             />
           </motion.div>

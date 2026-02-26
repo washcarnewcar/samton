@@ -44,12 +44,12 @@ function AnimatedInput({
   const [hasValue, setHasValue] = useState(false);
 
   const inputClasses =
-    "w-full px-4 py-3 rounded-xl bg-white/[0.04] border text-white placeholder-white/20 focus:outline-none transition-all duration-300";
+    "w-full px-4 py-3 rounded-xl bg-[#f5f7fa] border text-[#0a1f3c] placeholder-[#0a1f3c]/25 focus:outline-none transition-all duration-300";
 
   return (
     <motion.div
       animate={{
-        borderColor: focused ? "rgba(107,159,255,0.3)" : "rgba(255,255,255,0.08)",
+        borderColor: focused ? "rgba(107,159,255,0.3)" : "rgba(10,31,60,0.08)",
       }}
       className="relative"
     >
@@ -58,7 +58,7 @@ function AnimatedInput({
         style={{
           fontSize: "13px",
           fontWeight: 600,
-          color: focused ? "rgba(107,159,255,0.8)" : "rgba(255,255,255,0.4)",
+          color: focused ? "rgba(107,159,255,0.9)" : "rgba(10,31,60,0.45)",
         }}
       >
         {label}
@@ -72,8 +72,8 @@ function AnimatedInput({
           onChange={(e) => setHasValue(e.target.value.length > 0)}
           className={`${inputClasses} resize-none ${
             focused
-              ? "border-[#6b9fff]/30 bg-white/[0.06] shadow-[0_0_20px_rgba(107,159,255,0.05)]"
-              : "border-white/[0.08]"
+              ? "border-[#6b9fff]/30 bg-white shadow-[0_0_20px_rgba(107,159,255,0.06)]"
+              : "border-[#0a1f3c]/[0.08]"
           }`}
           style={{ fontSize: "14px" }}
         />
@@ -86,8 +86,8 @@ function AnimatedInput({
           onChange={(e) => setHasValue(e.target.value.length > 0)}
           className={`${inputClasses} ${
             focused
-              ? "border-[#6b9fff]/30 bg-white/[0.06] shadow-[0_0_20px_rgba(107,159,255,0.05)]"
-              : "border-white/[0.08]"
+              ? "border-[#6b9fff]/30 bg-white shadow-[0_0_20px_rgba(107,159,255,0.06)]"
+              : "border-[#0a1f3c]/[0.08]"
           }`}
           style={{ fontSize: "14px" }}
         />
@@ -119,12 +119,14 @@ export function ContactSection() {
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <section id="contact" className="relative bg-[#081521] py-24 lg:py-32 overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+    <section id="contact" className="relative bg-[#f5f7fa] py-24 lg:py-32 overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#0a1f3c]/10 to-transparent" />
+      {/* Gradient orb */}
+      <div className="absolute bottom-1/4 left-1/3 w-[500px] h-[500px] bg-gradient-to-tr from-[#6b9fff]/5 to-transparent rounded-full blur-[200px]" />
 
       {/* Animated corner decoration */}
       <motion.div
-        className="absolute top-20 right-20 w-px h-40 bg-gradient-to-b from-[#6b9fff]/20 to-transparent hidden lg:block"
+        className="absolute top-20 right-20 w-px h-40 bg-gradient-to-b from-[#6b9fff]/15 to-transparent hidden lg:block"
         initial={{ scaleY: 0 }}
         whileInView={{ scaleY: 1 }}
         viewport={{ once: true }}
@@ -132,7 +134,7 @@ export function ContactSection() {
         style={{ transformOrigin: "top" }}
       />
       <motion.div
-        className="absolute top-20 right-20 h-px w-40 bg-gradient-to-r from-[#6b9fff]/20 to-transparent hidden lg:block"
+        className="absolute top-20 right-20 h-px w-40 bg-gradient-to-r from-[#6b9fff]/15 to-transparent hidden lg:block"
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true }}
@@ -150,7 +152,7 @@ export function ContactSection() {
             transition={{ duration: 0.8 }}
           >
             <motion.div
-              className="text-white/30 mb-4 tracking-widest"
+              className="text-[#6b9fff] mb-4 tracking-widest"
               style={{ fontSize: "12px", fontWeight: 600 }}
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -160,14 +162,14 @@ export function ContactSection() {
               CONTACT US
             </motion.div>
             <h2
-              className="text-white mb-6"
+              className="text-[#0a1f3c] mb-6"
               style={{ fontSize: "clamp(28px, 3.5vw, 44px)", fontWeight: 800, lineHeight: 1.2, letterSpacing: "-0.02em" }}
             >
               프로젝트를
               <br />
               시작해 보세요
             </h2>
-            <p className="text-white/40 max-w-md mb-12" style={{ fontSize: "16px", lineHeight: 1.8 }}>
+            <p className="text-[#0a1f3c]/45 max-w-md mb-12" style={{ fontSize: "16px", lineHeight: 1.8 }}>
               복잡한 요구사항도 괜찮습니다. Samton이 구조화하고 해결하겠습니다.
               편하게 연락주세요.
             </p>
@@ -184,7 +186,7 @@ export function ContactSection() {
                   className="flex items-start gap-4 group"
                 >
                   <motion.div
-                    className="flex-shrink-0 w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center"
+                    className="flex-shrink-0 w-10 h-10 rounded-xl bg-white border border-[#0a1f3c]/[0.06] flex items-center justify-center shadow-sm"
                     whileHover={{
                       backgroundColor: "rgba(107,159,255,0.1)",
                       borderColor: "rgba(107,159,255,0.3)",
@@ -195,13 +197,13 @@ export function ContactSection() {
                     <item.icon size={18} className="text-[#6b9fff]" strokeWidth={1.5} />
                   </motion.div>
                   <div>
-                    <div className="text-white/30 mb-0.5" style={{ fontSize: "12px", fontWeight: 600 }}>
+                    <div className="text-[#0a1f3c]/35 mb-0.5" style={{ fontSize: "12px", fontWeight: 600 }}>
                       {item.label}
                     </div>
                     {item.href ? (
                       <motion.a
                         href={item.href}
-                        className="text-white/70 hover:text-white transition-colors inline-block"
+                        className="text-[#0a1f3c]/70 hover:text-[#0a1f3c] transition-colors inline-block"
                         style={{ fontSize: "15px", fontWeight: 500 }}
                         whileHover={{ x: 3 }}
                         transition={{ duration: 0.2 }}
@@ -209,7 +211,7 @@ export function ContactSection() {
                         {item.value}
                       </motion.a>
                     ) : (
-                      <span className="text-white/70" style={{ fontSize: "15px", fontWeight: 500 }}>
+                      <span className="text-[#0a1f3c]/70" style={{ fontSize: "15px", fontWeight: 500 }}>
                         {item.value}
                       </span>
                     )}
@@ -227,14 +229,14 @@ export function ContactSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <motion.div
-              className="p-8 lg:p-10 rounded-2xl bg-white/[0.02] border border-white/[0.06] relative overflow-hidden"
-              whileHover={{ borderColor: "rgba(255,255,255,0.1)" }}
+              className="p-8 lg:p-10 rounded-2xl bg-white border border-[#0a1f3c]/[0.06] relative overflow-hidden shadow-sm"
+              whileHover={{ borderColor: "rgba(107,159,255,0.15)", boxShadow: "0 8px 30px rgba(10,31,60,0.06)" }}
               transition={{ duration: 0.3 }}
             >
               {/* Corner glow */}
-              <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#6b9fff] rounded-full blur-[100px] opacity-[0.03]" />
+              <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#6b9fff] rounded-full blur-[100px] opacity-[0.04]" />
 
-              <h3 className="text-white mb-8" style={{ fontSize: "20px", fontWeight: 700 }}>
+              <h3 className="text-[#0a1f3c] mb-8" style={{ fontSize: "20px", fontWeight: 700 }}>
                 문의하기
               </h3>
 
@@ -256,12 +258,12 @@ export function ContactSection() {
 
                   <MagneticButton
                     type="submit"
-                    className="w-full py-3.5 rounded-xl bg-white text-[#0a1f3c] hover:bg-white/90 transition-colors relative overflow-hidden group"
+                    className="w-full py-3.5 rounded-xl bg-[#0a1f3c] text-white hover:bg-[#133254] transition-colors relative overflow-hidden group"
                     style={{ fontSize: "15px", fontWeight: 700 }}
                   >
                     <span className="relative z-10">문의 보내기</span>
                     {/* Shimmer effect */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                   </MagneticButton>
                 </form>
               ) : (
@@ -281,16 +283,16 @@ export function ContactSection() {
                       <path d="M5 13l4 4L19 7" />
                     </svg>
                   </motion.div>
-                  <h4 className="text-white mb-2" style={{ fontSize: "20px", fontWeight: 700 }}>
+                  <h4 className="text-[#0a1f3c] mb-2" style={{ fontSize: "20px", fontWeight: 700 }}>
                     문의가 접수되었습니다
                   </h4>
-                  <p className="text-white/40" style={{ fontSize: "14px", lineHeight: 1.7 }}>
+                  <p className="text-[#0a1f3c]/45" style={{ fontSize: "14px", lineHeight: 1.7 }}>
                     빠른 시일 내에 담당자가 연락드리겠습니다.
                     <br />
                     감사합니다.
                   </p>
                   <motion.button
-                    className="mt-6 px-6 py-2 rounded-lg border border-white/10 text-white/50 hover:text-white hover:border-white/20 transition-all"
+                    className="mt-6 px-6 py-2 rounded-lg border border-[#0a1f3c]/10 text-[#0a1f3c]/50 hover:text-[#0a1f3c] hover:border-[#0a1f3c]/20 transition-all"
                     style={{ fontSize: "13px", fontWeight: 600 }}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
